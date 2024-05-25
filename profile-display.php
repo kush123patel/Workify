@@ -1,0 +1,117 @@
+<?php
+ include('model.php'); 
+$vid=$_GET["vid"];
+$empid=$_GET["regiid"];
+// echo $regiid;
+if(isset($_SESSION['eid']))
+{
+    $eid = $_SESSION['eid'];   
+
+            //hostname/username/pass/db_name
+   
+    $conn=new mysqli('localhost','root','','test');  
+         $axy= "SELECT * FROM profile WHERE regiid = $eid ";
+          $rresult =mysqli_query($conn, $axy);          
+         $axyz = "SELECT * FROM profile WHERE regiid = $eid ";
+          $result =mysqli_query($conn, $axyz);
+            $chk=$result->num_rows; 
+       if ($result) {
+             $fetch=$result->fetch_object();
+				          $id=$fetch->regiid;   
+                  $xy= "SELECT * FROM p_job WHERE id = $vid ";
+                  $res =mysqli_query($conn, $xy);                 
+           }
+            
+ 	 if($id==$eid)
+  {
+    // echo "<script>
+    //               window.location='index.php';  
+    //               </script>";
+  }else
+  {
+    echo "<script>
+                  window.location='profile-settings.php';  
+                  </script>";
+  }
+      
+  }else
+{
+  echo "<script>
+  window.location='loginjobseeker.php';
+  </script>";
+}
+?>
+<?php 
+ include_once("header.php");
+ ?>
+<?php 
+$i=1;
+ ?>
+
+<div class="page-title">
+  <div class="container">
+    <div class="page-caption">
+      <h2>Profile</h2>
+      <p><a href="index.php" title="Home">Home</a> <i class="ti-angle-double-right"></i>Profile</p>
+    </div>
+  </div>
+</div>
+<div class="vrt-job-act" style="margin-left:80%;"> <a href="apply.php?vid=<?php echo $vid; ?>&empid=<?php echo $empid; ?>"class="btn-job theme-btn job-apply">Apply</a></form></div>
+<!-- ======================= End Page Title ===================== --> 
+
+<!-- ====================== Start Job Detail 2 ================ -->
+<?php   // LOOP TILL END OF DATA 
+                while($row = mysqli_fetch_array($rresult)):
+          ?>
+<section class="padd-top-80 padd-bot-60">
+  <div class="container"> 
+    <!-- row -->
+    
+    <div class="row" >
+      <div class="col-md-12 col-sm-7">
+        <div class="detail-wrapper">
+          <div class="detail-wrapper-body">
+			<div class="row">
+				<div class="col-md-4 text-center user_profile_img"> <img src="<?php echo $row["image"];?>" width="50%" height="50%"  alt=""/>
+					
+				  <div class="text-center">
+					<!-- <button type="button" data-toggle="modal" data-target="#signin" class="btn-job theme-btn job-apply">Apply Now</button> -->
+				  </div>
+				</div>
+				<div class="col-md-8 user_job_detail">
+          <div class="col-sm-12 mrg-bot-10"> <label>Name:-</label>&nbsp <span class="full-type"><?php echo $row["name"];?></span></div>
+          <div class="col-sm-12 mrg-bot-10"> <label>Gender:-</label>&nbsp <span class="full-type"><?php echo $row["gender"];?></span></div>
+          <div class="col-sm-12 mrg-bot-10"> <label>Date Of Birth:-</label>&nbsp <span class="full-type"><?php echo $row["dob"];?></span></div>
+          <div class="col-sm-12 mrg-bot-10"> <label>Email:-</label>&nbsp <span class="full-type"><?php echo $row["email"];?></span></div>
+          <div class="col-sm-12 mrg-bot-10"> <label>Phone No:-</label>&nbsp <span class="full-type"><?php echo $row["mobile"];?></span></div>
+          <div class="col-sm-12 mrg-bot-10"> <label>Address:-</label>&nbsp <span class="full-type"><?php echo $row["address"];?></span></div>
+          <div class="col-sm-12 mrg-bot-10"> <label>City:-</label>&nbsp <span class="full-type"><?php echo $row["district"];?></span></div>
+          <div class="col-sm-12 mrg-bot-10"> <label>State:-</label>&nbsp <span class="full-type"><?php echo $row["state"];?></span></div>
+          <?php   // LOOP TILL END OF DATA 
+                while($row = mysqli_fetch_array($res)):
+          ?>
+			   <a target="_blank" href="https://api.whatsapp.com/send?phone=+91 <?php echo $row["phone_no"];?>&text=Hello%20 <?php echo $row["phone_no"];?>, I hope things have been awesome! I'm jotting you a quick note to let you know that I'm currently searching for a new career opportunity in <?php echo $row["c_name"];?>. %20Official request through WORKIFY%20%20"><img src="assets/img/wt.jpeg" class='pulse' style="height: 80px; width: 80px; position: fixed;border-radius: 35px; bottom: 0; margin: 0 0 10px 10px; z-index: 9999; float: right;" /></a>
+         <?php 
+    endwhile;
+    ?> 
+          </div>
+        </div>
+
+        </div>
+       
+		
+      </div>
+      
+      <!-- Sidebar -->
+      
+            </div>
+          </div>
+       
+		 <?php 
+    endwhile;
+    ?>   
+
+<!-- <div><a href="#" class="scrollup">Scroll</a></div> -->
+<?php
+include_once("footer.php");
+?>
